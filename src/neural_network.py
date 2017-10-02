@@ -1,7 +1,6 @@
 import tensorflow as tf
 import csv
 
-
 class CSVReader:
     def __init__(self):
         self.dataset_list = []
@@ -14,7 +13,7 @@ class CSVReader:
             for linha in tuples_csv:
                 self.dataset_list.append(linha)
         finally:
-            file.close()
+           file.close()
 
     def normatize_data(self):
         for tuple in self.dataset_list:
