@@ -1,73 +1,56 @@
 import tensorflow as tf
-import zipfile
-import pandas as pn
-import csv
 
 
-class CSVReader:
+class NeuralNetwork:
     def __init__(self):
-        print ('here1')
-        self.dataset_list = []
-        self.reader()
+        # Parameters
+        self.learning_rate  = 0.1
+        self.num_steps      = 10
+        self.batch_size     = 128
+        self.display_step   = 100
 
-    def reader(self):
-        with zipfile.ZipFile('../data/kddcup_data_10_percent.zip', 'r') as file_zip:
-            file = file_zip.open('kddcup_data.csv')
-            data = pn.read_table(file, sep=',')
-            print(data)
+        # Network Parameters
+        self.n_hidden_1     = 10  # 1st layer number of neurons
 
-class DataAnalysis:
-    def __init__(self, total_tuples):
-        self.input_tenor = None
+        self.num_input      = 41
+        self.num_classes    = 2  # Normal and anormal
 
-        self.learning_rate = 0.01
-        self.training_epochs = 1000
-        self.display_step = 56
+    def perceptron(self):
 
-        # Network parameters:
-        self.n_hidden_1 = 41         # 1st layer number of features
-        self.n_input = total_tuples  # Total of datasets
-        self.n_class = 24 + 1        # Classes of atacks + 1 normal
+        # tf Graph input
+        input_matrix = tf.placeholder(dtype=tf.string, shape=[self.num_input, 1])
+        output_expected = tf.placeholder(dtype=tf.string)
 
-        self.weights = {
-            'h1': tf.Variable(tf.random_normal([self.n_input, self.n_hidden_1])),
-            'out': tf.Variable(tf.random_normal([self.n_hidden_1, self.n_class]))
+        # Store layers weight & bias
+        weights = {
+            'h1': tf.Variable(tf.random_normal([self.num_input, self.n_hidden_1])),
+            'out': tf.Variable(tf.random_normal([self.n_hidden_1, self.num_classes]))
         }
-
-        self.biases = {
+        biases = {
             'b1': tf.Variable(tf.random_normal([self.n_hidden_1])),
-            'b3': tf.Variable(tf.random_normal([self.n_class]))
+            'out': tf.Variable(tf.random_normal([self.num_classes]))
         }
 
-        self.multilayer_perceptron(self.input_tenor, self.weights, self.biases)
+        # Construct model
 
-    def perceptron(self, input_tensor, weights, biases):
-        layer_1_multiplication = tf.matmul(input_tensor, weights['h1'])
+        layer_1_multiplication = tf.matmul(input_matrix, weights['h1'])
+        layer_1_addition = tf.add(layer_1_multiplication, biases['b1'])
+        layer_1_activation = tf.nn.relu(layer_1_addition)
 
-        layer_1_addiction = tf.add(layer_1_multiplication, biases['b1'])
+        out_layer_multiplication = tf.matmul(layer_1_activation, weights['out'])
+        out_layer_addition = out_layer_multiplication + biases['out']
 
-        layer_1_activate = tf.nn.relu(layer_1_addiction)
+        # Compare out value with output expected:
+        loss_op = tf.reduce_mean(
+            tf.nn.softmax_cross_entropy_with_logits(logits=out_layer_addition, labels=output_expected))
 
-        out_layer_multiplication = tf.matmul(layer_1_activate, weights['out'])
-        out_layer_addiction = out_layer_multiplication + biases['out']
+        # Computing gradients and apply gradients automatic:
+        optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate).minimize(loss_op)
 
-        return out_layer_addiction
+        correct_pred = tf.equal(tf.argmax(out_layer_addition, 1), tf.argmax(Y, 1))
 
-    def multilayer_perceptron(self, input_tensor, weights, biases):
-        layer_1_multiplication = tf.matmul(input_tensor, weights['h1'])
-        layer_1_addiction = tf.add(layer_1_multiplication, biases['b1'])
-        layer_1_activate = tf.nn.relu(layer_1_addiction)
-
-        layer_2_multiplication = tf.matmul(layer_1_activate, weights['h2'])
-        layer_2_addiction = tf.add(layer_2_multiplication, biases['b2'])
-        layer_2_activate = tf.nn.relu(layer_2_addiction)
-
-        out_layer_multiplication = tf.matmul(layer_2_activate, weights['out'])
-        out_layer_addiction = out_layer_multiplication + biases['out']
-
-        return out_layer_addiction
+        accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
 
 if __name__ == '__main__':
-    print('aqui')
-    reader = CSVReader()
+    reader = NeuralNetwork()

@@ -1,7 +1,4 @@
 import tensorflow as tf
-import os
-
-TRAINING = os.path.join(os.path.dirname(__file__), "../data/kddcup_data.csv")
 
 vector = []
 
