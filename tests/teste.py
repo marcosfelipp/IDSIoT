@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-from data_manipulation import DataManipulation
+from src.data_manipulation import DataManipulation
 
 
 class NeuralNetwork:

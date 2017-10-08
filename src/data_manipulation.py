@@ -45,6 +45,7 @@ class DataManipulation:
             tuple[2] = services_type.get(tuple[2])
             tuple[3] = flag.get(tuple[3])
 
+            # Correct after (matix shape must be of type [[]] not a simple vector ([])
             x = []
             y = np.zeros(2, dtype=float)
             if tuple[41] == 'normal':
