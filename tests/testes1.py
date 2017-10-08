@@ -3,7 +3,7 @@ import tensorflow as tf
 vector = []
 
 # Parameters
-learning_rate = 0.1
+learning_rate = 0.2
 num_steps = 10
 batch_size = 128
 display_step = 100

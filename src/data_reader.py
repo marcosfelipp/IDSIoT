@@ -1,5 +1,6 @@
 import os
 
+
 class DataReader:
     def __init__(self):
         pass
@@ -7,6 +8,7 @@ class DataReader:
     def read_file(self):
 
         matrix = []
+        classes = []
 
         TRAINING = os.path.join(os.path.dirname(__file__), "../data/KDDTrain20Percent.txt")
 
@@ -31,7 +33,7 @@ class DataReader:
         flag = {'OTH': 1, 'REJ': 2, 'RSTO': 3, 'RSTOS0': 4, 'RSTR': 5, 'S0': 6, 'S1': 7, 'S2': 8, 'S3': 9, 'SF': 10,
                 'SH': 11}
 
-        classe = {'normal': 0, 'anomaly': 1}
+        classe = {'normal': .0, 'anomaly': 1.0}
 
         with open(TRAINING) as file:
             for line in file:
@@ -42,10 +44,10 @@ class DataReader:
             tuple[1] = protocol_type.get(tuple[1])
             tuple[2] = services_type.get(tuple[2])
             tuple[3] = flag.get(tuple[3])
-            tuple[41] = classe.get(tuple[41])
+            classes.append(classe.get(tuple[41]))
 
         for line in range(len(matrix)):
             for value in range(len(matrix[0])):
                 matrix[line][value] = float(matrix[line][value])
 
-        return matrix
+        return matrix, classes

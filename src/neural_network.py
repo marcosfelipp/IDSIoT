@@ -18,8 +18,8 @@ class NeuralNetwork:
     def perceptron(self):
 
         # tf Graph input
-        input_matrix = tf.placeholder(dtype=tf.string, shape=[self.num_input, 1])
-        output_expected = tf.placeholder(dtype=tf.string)
+        input_matrix = tf.placeholder(dtype=tf.float16, shape=[1, self.num_input])
+        output_expected = tf.placeholder(dtype=tf.float16, shape=[1, self.num_classes])
 
         # Store layers weight & bias
         weights = {
@@ -47,6 +47,14 @@ class NeuralNetwork:
         # Computing gradients and apply gradients automatic:
         optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate).minimize(loss_op)
 
+        init = tf.global_variables_initializer()
+
+        with tf.Session() as sess:
+            sess.run(init)
+            for epoch in range(self.num_steps):
+                pass
+
+        # Test model:
         correct_pred = tf.equal(tf.argmax(out_layer_addition, 1), tf.argmax(Y, 1))
 
         accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
