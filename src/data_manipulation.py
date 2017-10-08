@@ -1,7 +1,7 @@
 import os
+import numpy as np
 
-
-class DataReader:
+class DataManipulation:
     def __init__(self):
         pass
 
@@ -44,7 +44,17 @@ class DataReader:
             tuple[1] = protocol_type.get(tuple[1])
             tuple[2] = services_type.get(tuple[2])
             tuple[3] = flag.get(tuple[3])
-            classes.append(classe.get(tuple[41]))
+
+            x = []
+            y = np.zeros(2, dtype=float)
+            if tuple[41] == 'normal':
+                y[0] = 1
+            else:
+                y[1] = 1
+            x.append(y)
+            classes.append(x)
+
+            del tuple[41]
 
         for line in range(len(matrix)):
             for value in range(len(matrix[0])):

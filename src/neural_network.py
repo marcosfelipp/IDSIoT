@@ -1,25 +1,34 @@
 import tensorflow as tf
+import numpy as np
+from data_manipulation import DataManipulation
 
 
 class NeuralNetwork:
     def __init__(self):
         # Parameters
-        self.learning_rate  = 0.1
-        self.num_steps      = 10
+        self.learning_rate  = 0.01
+        self.num_steps      = 5
         self.batch_size     = 128
         self.display_step   = 100
 
         # Network Parameters
         self.n_hidden_1     = 10  # 1st layer number of neurons
-
         self.num_input      = 41
         self.num_classes    = 2  # Normal and anormal
 
-    def perceptron(self):
+        # Load data
+        self.data_reader = DataManipulation()
+        self.input_matrix, self.output_matrix = self.data_reader.read_file()
 
+        self.input_len = len(self.output_matrix)
+
+        self.perceptron()
+
+    def perceptron(self):
+        print('Starting perceptron')
         # tf Graph input
-        input_matrix = tf.placeholder(dtype=tf.float16, shape=[1, self.num_input])
-        output_expected = tf.placeholder(dtype=tf.float16, shape=[1, self.num_classes])
+        input_matrix = tf.placeholder(dtype=tf.float32, shape=[1, self.num_input])
+        output_expected = tf.placeholder(dtype=tf.float32, shape=[1, self.num_classes])
 
         # Store layers weight & bias
         weights = {
@@ -49,15 +58,40 @@ class NeuralNetwork:
 
         init = tf.global_variables_initializer()
 
+        # Launch the graph
         with tf.Session() as sess:
             sess.run(init)
+
+            # Training cycle
             for epoch in range(self.num_steps):
-                pass
+                avg_cost = 0.
+
+                # Loop over all tuples:
+                for tuple_position in range(self.input_len):
+                    input_m = []
+                    input_m.append(self.input_matrix[tuple_position])
+
+                    c, _ = sess.run([loss_op, optimizer],
+                                    feed_dict={input_matrix: input_m,
+                                               output_expected: self.output_matrix[tuple_position]})
+
+                    avg_cost += c / self.input_len
+                    print(tuple_position)
+
+            print("Optimization finished")
 
         # Test model:
-        correct_pred = tf.equal(tf.argmax(out_layer_addition, 1), tf.argmax(Y, 1))
+        # correct_pred = tf.equal(tf.argmax(out_layer_addition, 1), tf.argmax(Y, 1))
 
-        accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+       #  accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+
+    def transform_tuple_in_matrix(self, tuple):
+        matrix = []
+        for var in tuple:
+            line = [var]
+            matrix.append(line)
+
+        return matrix
 
 
 if __name__ == '__main__':
