@@ -88,7 +88,9 @@ class NeuralNetwork:
 
             print("Optimization finished")
 
-        # Test model:
-        # correct_pred = tf.equal(tf.argmax(out_layer_addition, 1), tf.argmax(Y, 1))
+            # Test model
+            correct_pred = tf.equal(tf.argmax(out_layer_addition, 1), tf.argmax(output_expected, 1))
 
-       #  accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+            accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+
+            print("Accuracy:", accuracy.eval({input_matrix: self.input_test, output_expected: self.output_test}))
