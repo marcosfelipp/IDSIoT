@@ -1,5 +1,10 @@
+import sys
+import os
 import tensorflow as tf
 
+sys.path.append( os.path.join( os.path.dirname(__file__), "../" ) )
+
+from utilities.log import Log
 
 class NeuralNetwork:
     def __init__(self, input_training, output_training, input_test, output_test):
@@ -30,7 +35,6 @@ class NeuralNetwork:
         Percetron is Alg ML with 1 label
         :return: None
         '''
-
         print('Starting perceptron')
 
         # tf Graph input
@@ -84,9 +88,9 @@ class NeuralNetwork:
                                                output_expected: self.output_matrix[tuple_position]})
 
                     avg_cost += c / self.input_train_len
-                print("Accurace in epoch ", epoch, " : ",avg_cost)
+                Log.info("Accurace in epoch %d"  %epoch + " : %f"  %avg_cost)
 
-            print("Optimization finished")
+            Log.info("Optimization finished")
 
             # Test model
             correct_pred = tf.equal(tf.argmax(out_layer_addition, 1), tf.argmax(output_expected, 1))
@@ -99,4 +103,6 @@ class NeuralNetwork:
                 input_m.append(self.input_test[tuple])
                 result+= accuracy.eval({input_matrix: input_m, output_expected: self.output_test[tuple]})
 
-            print("RESULT:",result/self.input_test_len)
+            result = result/self.input_test_len
+
+            Log.info("RESULT: %f" %result)

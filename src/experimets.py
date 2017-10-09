@@ -1,6 +1,11 @@
+import sys
+import os
 from neural_network import NeuralNetwork
 from data_manipulation import DataManipulation
 
+sys.path.append( os.path.join( os.path.dirname(__file__), "../" ) )
+
+from utilities.log import Log
 
 class Experiments:
     '''
@@ -17,7 +22,7 @@ class Experiments:
 
     def run_experiment(self):
         for i in range(self.div_number):
-            print("Starting test: ", i)
+            Log.info("Starting test: %d" %i)
 
             input_training  = []
             output_training = []
