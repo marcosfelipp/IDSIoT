@@ -5,7 +5,7 @@ class NeuralNetwork:
     def __init__(self, input_training, output_training, input_test, output_test):
         # Parameters
         self.learning_rate  = 0.01
-        self.num_steps      = 5
+        self.num_steps      = 10
         self.batch_size     = 128
         self.display_step   = 100
 
@@ -84,7 +84,7 @@ class NeuralNetwork:
                                                output_expected: self.output_matrix[tuple_position]})
 
                     avg_cost += c / self.input_train_len
-                    print(tuple_position)
+                print("Accurace in epoch ", epoch, " : ",avg_cost)
 
             print("Optimization finished")
 
@@ -93,4 +93,10 @@ class NeuralNetwork:
 
             accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
-            print("Accuracy:", accuracy.eval({input_matrix: self.input_test, output_expected: self.output_test}))
+            result = 0
+            for tuple in range(self.input_test_len):
+                input_m = []
+                input_m.append(self.input_test[tuple])
+                result+= accuracy.eval({input_matrix: input_m, output_expected: self.output_test[tuple]})
+
+            print("RESULT:",result/self.input_test_len)

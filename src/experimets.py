@@ -17,6 +17,8 @@ class Experiments:
 
     def run_experiment(self):
         for i in range(self.div_number):
+            print("Starting test: ", i)
+
             input_training  = []
             output_training = []
             input_test      = []
@@ -30,7 +32,6 @@ class Experiments:
                     input_training.append(self.input[j])
                     output_training.append(self.output_expected[j])
 
-            print(len(input_training), len(output_training), len(input_test), len(output_test))
             rn = NeuralNetwork(input_training, output_training, input_test, output_test)
 
 
