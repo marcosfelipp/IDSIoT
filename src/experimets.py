@@ -1,11 +1,12 @@
-import sys
 import os
-from neural_network import NeuralNetwork
+import sys
+
 from data_manipulation import DataManipulation
+from neural_network import NeuralNetwork
 
 sys.path.append( os.path.join( os.path.dirname(__file__), "../" ) )
 
-from utilities.log import Log
+from src.utilities import Log
 
 class Experiments:
     '''
