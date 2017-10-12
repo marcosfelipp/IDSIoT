@@ -10,7 +10,7 @@ class DataManipulation:
         matrix = []
         classes = []
 
-        TRAINING = os.path.join(os.path.dirname(__file__), "../data/KDDTrain20Percent.txt")
+        TRAINING = os.path.join(os.path.dirname(__file__), "../data/KDDTrain+.txt")
 
         services_type = {'aol': 1, 'auth': 2, 'bgp': 3, 'courier': 4, 'csnet_ns': 5, 'ctf': 6, 'daytime': 7,
                          'discard': 8, 'domain': 9,

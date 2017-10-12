@@ -7,6 +7,7 @@ sys.path.append( os.path.join( os.path.dirname(__file__), "../" ) )
 
 from src.utilities.log import Log
 
+
 class NeuralNetwork:
     def __init__(self, input_training, output_training, input_test, output_test):
         # Parameters
@@ -32,17 +33,16 @@ class NeuralNetwork:
 
         self.neural_network_run(self.neural_network_type)
 
-
     def neural_network_run(self, type):
         '''
-        Method that build a neural network 
-        :return: 
+        :param type
+        Method that build a neural network
+        :return: None
         '''
 
         # tf Graph input
         input_matrix = tf.placeholder(dtype=tf.float32, shape=[1, self.num_input])
         output_expected = tf.placeholder(dtype=tf.float32, shape=[1, self.num_classes])
-
 
         # Construct model
         if type == 'perceptron':
@@ -99,7 +99,6 @@ class NeuralNetwork:
 
     def create_model_multilayer_perceptron(self, input_matrix):
         '''
-        
         :param input_matrix: 
         :return: 
         '''
@@ -127,10 +126,8 @@ class NeuralNetwork:
 
         return out_layer_addition
 
-
     def create_model_perceptron(self, input_matrix):
         '''
-        
         :param input_matrix: 
         :return: 
         '''
