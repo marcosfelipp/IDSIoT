@@ -1,17 +1,14 @@
 import matplotlib.pyplot as mpl
 
+
 class GraphsGenerator:
     def __init__(self):
+        pass
 
-        acertos_perceptron = [90,85,92,94]
-        acertos_multi_perceptron = [99,85,88,99]
-
-        numero_epochs = [5,10,20,40]
-        self.perceptron_compare(acertos_perceptron, acertos_multi_perceptron, numero_epochs)
-
-    def perceptron_compare(self, perceptron_hits, multi_perceptron_hits, epochs_number):
+    @staticmethod
+    def plot_perceptron_compare(perceptron_hits, multi_perceptron_hits, epochs_number):
         '''
-        Compare Perceptron e Multilayer Perceptron in relation of epochs number
+        Plot graph comparing Perceptron e Multilayer Perceptron in relation of epochs number
         :param perceptron_hits: list containing hits percentage of perceptron
         :param multi_perceptron_hits: list containing hits percentage of multilayer perceptron
         :param epochs_number:
@@ -24,11 +21,24 @@ class GraphsGenerator:
 
         mpl.ylabel('% Acertos')
         mpl.xlabel('Epochs')
-        mpl.savefig('foo.png')
+        mpl.savefig('acertosXepochs.png')
 
-    def multilayer_perceptron_compare(self, hits, layers_amount):
-        mpl.plot(hits, layers_amount)
+    @staticmethod
+    def plot_neurons_amount_compare(hits, neurons_amount):
+        '''
+        Plot graph comparing neurons number with hits percentage
+        :param hits: a
+        :param neurons_amount:
+        :return: None
+        '''
+
+        mpl.plot(hits, neurons_amount)
         mpl.axis([0, 10, 70, 100])
 
-if __name__ =="__main__":
+        mpl.ylabel('% Acertos')
+        mpl.xlabel('Qtd. Neuronios camdada 2')
+        mpl.savefig('acertosXepochs.png')
+
+
+if __name__ == "__main__":
     gg = GraphsGenerator()

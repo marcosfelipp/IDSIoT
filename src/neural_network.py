@@ -3,13 +3,13 @@ import sys
 
 import tensorflow as tf
 
-sys.path.append( os.path.join( os.path.dirname(__file__), "../" ) )
+sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 
 from src.utilities.log import Log
 
 
 class NeuralNetwork:
-    def __init__(self, input_training, output_training, input_test, output_test):
+    def __init__(self, neural_network_type, input_training, output_training, input_test, output_test):
         # Parameters
         self.learning_rate  = 0.01
         self.num_steps      = 10
@@ -20,7 +20,7 @@ class NeuralNetwork:
         self.num_input      = 41
         self.num_classes    = 2  # Normal or anormal
 
-        self.neural_network_type = 'perceptron' #  perceptron or multilayer_perceptron
+        self.neural_network_type = neural_network_type
 
         # Load data
         self.input_matrix   = input_training
@@ -35,8 +35,8 @@ class NeuralNetwork:
 
     def neural_network_run(self, type):
         '''
-        :param type
         Method that build a neural network
+        :param type
         :return: None
         '''
 
