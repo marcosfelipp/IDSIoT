@@ -12,13 +12,12 @@ class NeuralNetwork:
     def __init__(self, input_training, output_training, input_test, output_test):
         # Parameters
         self.learning_rate  = 0.01
-        self.num_steps      = 0
 
         # Network Parameters
         self.n_hidden_1     = 10  # 1st layer number of neurons
-        self.n_hidden_2     = 4
+        self.n_hidden_2     = 10
         self.num_input      = 41
-        self.num_classes    = 2  # Normal or anormal
+        self.num_classes    = 23  # Normal or anormal
 
         # Load data
         self.input_matrix   = input_training
@@ -104,7 +103,7 @@ class NeuralNetwork:
         '''
         weights = {
             'h1': tf.Variable(tf.random_normal([self.num_input, self.n_hidden_1])),
-            'h2': tf.Variable(tf.random_normal(self.n_hidden_1, self.n_hidden_2)),
+            'h2': tf.Variable(tf.random_normal([self.n_hidden_1, self.n_hidden_2])),
             'out': tf.Variable(tf.random_normal([self.n_hidden_2, self.num_classes]))
         }
         biases = {

@@ -10,7 +10,7 @@ class DataManipulation:
         matrix = []
         classes = []
 
-        TRAINING = os.path.join(os.path.dirname(__file__), "../data/KDDTrain+.txt")
+        TRAINING = os.path.join(os.path.dirname(__file__), "../data/KDDTrain20Percent.txt")
 
         services_type = {'aol': 1, 'auth': 2, 'bgp': 3, 'courier': 4, 'csnet_ns': 5, 'ctf': 6, 'daytime': 7,
                          'discard': 8, 'domain': 9,
@@ -35,6 +35,31 @@ class DataManipulation:
 
         classe = {'normal': .0, 'anomaly': 1.0}
 
+        classes_atacks = {'back'            : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                          'buffer_overflow' : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],
+                          'ftp_write'       : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],
+                         'guess_passwd'     : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],
+                          'imap'            : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],
+                          'land'            : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],
+                          'loadmodule'      : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],
+                          'multihop'        : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                          'neptune'         : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],
+                          'nmap'            : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
+                          'perl'            : [0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
+                          'phf'             : [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
+                          'pod'             : [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],
+                          'portsweep'       : [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                          'rootkit'         : [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                          'satan'           : [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                          'smurf'           : [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                          'teardrop'        : [0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                          'warezclient'     : [0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                          'warezmaster'     : [0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                          'ipsweep'         : [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                          'spy'             : [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                          'normal'          : [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                          'unknown'         : [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
+
         with open(TRAINING) as file:
             for line in file:
                 tuple = line.strip().split(',')
@@ -45,17 +70,10 @@ class DataManipulation:
             tuple[2] = services_type.get(tuple[2])
             tuple[3] = flag.get(tuple[3])
 
-            # Correct after (matix shape must be of type [[]] not a simple vector ([])
-            x = []
-            y = np.zeros(2, dtype=float)
-            if tuple[41] == 'normal':
-                y[0] = 1
-            else:
-                y[1] = 1
-            x.append(y)
-            classes.append(x)
+            classes.append(classes_atacks.get(tuple[41]))
 
             del tuple[41]
+            del tuple[42]
 
         for line in range(len(matrix)):
             for value in range(len(matrix[0])):
