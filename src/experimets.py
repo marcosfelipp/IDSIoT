@@ -14,7 +14,7 @@ class Experiments:
     '''
 
     def __init__(self):
-        self.div_number = 4
+        self.div_number = 1
 
         self.data_manipulation = DataManipulation()
         self.input, self.output_expected = self.data_manipulation.read_file()
@@ -22,10 +22,10 @@ class Experiments:
         self.run_experiment()
 
     def run_experiment(self):
-        for i in range(self.div_number):
-            #Log.info("Starting test: %d" %i)
-            print(len(self.input))
+        result_vector_perceptron = []
+        result_vector_multi_perceptron = []
 
+        for i in range(self.div_number):
             input_training  = []
             output_training = []
             input_test      = []
@@ -38,8 +38,17 @@ class Experiments:
                 else:
                     input_training.append(self.input[j])
                     output_training.append(self.output_expected[j])
-            rn = NeuralNetwork(input_training, output_training, input_test, output_test)
 
+            rn = NeuralNetwork(input_training, output_training, input_test, output_test)
+            result_vector_perceptron.append(rn.neural_network_run('perceptron', 5))
+            result_vector_perceptron.append(rn.neural_network_run('perceptron', 10))
+            result_vector_perceptron.append(rn.neural_network_run('perceptron', 20))
+            result_vector_perceptron.append(rn.neural_network_run('perceptron', 40))
+
+            result_vector_multi_perceptron.append(rn.neural_network_run('multi_percptron', 5))
+            result_vector_multi_perceptron.append(rn.neural_network_run('multi_percptron', 10))
+            result_vector_multi_perceptron.append(rn.neural_network_run('multi_percptron', 20))
+            result_vector_multi_perceptron.append(rn.neural_network_run('multi_percptron', 40))
 
 if __name__ == '__main__':
     ex = Experiments()

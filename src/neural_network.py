@@ -9,18 +9,16 @@ from src.utilities.log import Log
 
 
 class NeuralNetwork:
-    def __init__(self, neural_network_type, input_training, output_training, input_test, output_test):
+    def __init__(self, input_training, output_training, input_test, output_test):
         # Parameters
         self.learning_rate  = 0.01
-        self.num_steps      = 10
+        self.num_steps      = 0
 
         # Network Parameters
         self.n_hidden_1     = 10  # 1st layer number of neurons
         self.n_hidden_2     = 4
         self.num_input      = 41
         self.num_classes    = 2  # Normal or anormal
-
-        self.neural_network_type = neural_network_type
 
         # Load data
         self.input_matrix   = input_training
@@ -31,11 +29,11 @@ class NeuralNetwork:
         self.input_train_len= len(self.output_matrix)
         self.input_test_len = len(self.input_test)
 
-        self.neural_network_run(self.neural_network_type)
-
-    def neural_network_run(self, type):
+    def neural_network_run(self, neural_network_type, num_steeps):
         '''
         Method that build a neural network
+        :param neural_network_type
+        :param num_steeps
         :param type
         :return: None
         '''
@@ -45,7 +43,7 @@ class NeuralNetwork:
         output_expected = tf.placeholder(dtype=tf.float32, shape=[1, self.num_classes])
 
         # Construct model
-        if type == 'perceptron':
+        if neural_network_type == 'perceptron':
             model = self.create_model_perceptron(input_matrix)
         else:
             model = self.create_model_multilayer_perceptron(input_matrix)
@@ -64,7 +62,7 @@ class NeuralNetwork:
             sess.run(init)
 
             # Training cycle
-            for epoch in range(self.num_steps):
+            for epoch in range(num_steeps):
                 avg_cost = 0.
 
                 # Loop over all tuples:
@@ -96,6 +94,8 @@ class NeuralNetwork:
             result = result / self.input_test_len
 
             Log.info("RESULT: %f" % result)
+
+        return result
 
     def create_model_multilayer_perceptron(self, input_matrix):
         '''
