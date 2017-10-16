@@ -34,15 +34,15 @@ class Experiments:
         output_test     = self.output_test_expected
 
         rn = NeuralNetwork(input_training, output_training, input_test, output_test)
-        result_vector_multi_perceptron.append(rn.neural_network_run('multi_percptron', 4) * 100)
         result_vector_multi_perceptron.append(rn.neural_network_run('multi_percptron', 8) * 100)
-        result_vector_multi_perceptron.append(rn.neural_network_run('multi_percptron', 16) * 100)
-        result_vector_multi_perceptron.append(rn.neural_network_run('multi_percptron', 32) * 100)
+        result_vector_multi_perceptron.append(rn.neural_network_run('multi_percptron', 5) * 100)
+        #result_vector_multi_perceptron.append(rn.neural_network_run('multi_percptron', 16) * 100)
+        #result_vector_multi_perceptron.append(rn.neural_network_run('multi_percptron', 32) * 100)
 
-        result_vector_perceptron.append(rn.neural_network_run('perceptron', 4) * 100)
         result_vector_perceptron.append(rn.neural_network_run('perceptron', 8) * 100)
-        result_vector_perceptron.append(rn.neural_network_run('perceptron', 16) * 100)
-        result_vector_perceptron.append(rn.neural_network_run('perceptron', 32) * 100)
+        result_vector_perceptron.append(rn.neural_network_run('perceptron', 3) * 100)
+        #result_vector_perceptron.append(rn.neural_network_run('perceptron', 16) * 100)
+        #result_vector_perceptron.append(rn.neural_network_run('perceptron', 32) * 100)
 
         GraphsGenerator.plot_perceptron_compare('perceptron', result_vector_perceptron,
                                                 result_vector_multi_perceptron, [5, 10, 20, 40])

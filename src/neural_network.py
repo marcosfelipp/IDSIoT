@@ -11,7 +11,7 @@ from src.utilities.log import Log
 class NeuralNetwork:
     def __init__(self, input_training, output_training, input_test, output_test):
         # Parameters
-        self.learning_rate  = 0.001
+        self.learning_rate  = 0.002
 
         # Network Parameters
         self.n_hidden_1     = 10  # 1st layer number of neurons
