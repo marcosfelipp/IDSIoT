@@ -18,7 +18,7 @@ class GraphsGenerator:
 
         mpl.plot(epochs_number, perceptron_hits, epochs_number, multi_perceptron_hits)
 
-        mpl.axis([4, 32, 40, 100])
+        mpl.axis([4, 20, 40, 100])
         mpl.title(description)
         mpl.ylabel('% Acertos')
         mpl.xlabel('Epochs')
