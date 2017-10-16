@@ -1,16 +1,24 @@
 import os
 import numpy as np
 
+
 class DataManipulation:
     def __init__(self):
         pass
 
-    def read_file(self):
+    @staticmethod
+    def read_file(dataset_name):
+        '''
+        :param dataset_name
+        :return: 2 lists coitaining tuples and classification of attack
+        '''
 
         matrix = []
         classes = []
 
-        TRAINING = os.path.join(os.path.dirname(__file__), "../data/KDDTrain20Percent.txt")
+        file_name = '../data/' + dataset_name + '.txt'
+
+        training = os.path.join(os.path.dirname(__file__), file_name)
 
         services_type = {'aol': 1, 'auth': 2, 'bgp': 3, 'courier': 4, 'csnet_ns': 5, 'ctf': 6, 'daytime': 7,
                          'discard': 8, 'domain': 9,
@@ -33,12 +41,10 @@ class DataManipulation:
         flag = {'OTH': 1, 'REJ': 2, 'RSTO': 3, 'RSTOS0': 4, 'RSTR': 5, 'S0': 6, 'S1': 7, 'S2': 8, 'S3': 9, 'SF': 10,
                 'SH': 11}
 
-        classe = {'normal': .0, 'anomaly': 1.0}
-
         classes_atacks = {'back'            : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                           'buffer_overflow' : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],
                           'ftp_write'       : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],
-                         'guess_passwd'     : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],
+                          'guess_passwd'    : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],
                           'imap'            : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],
                           'land'            : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],
                           'loadmodule'      : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],
@@ -60,20 +66,29 @@ class DataManipulation:
                           'normal'          : [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                           'unknown'         : [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
 
-        with open(TRAINING) as file:
+        with open(training) as file:
             for line in file:
                 tuple = line.strip().split(',')
                 matrix.append(tuple)
+        count = 0
 
         for tuple in matrix:
             tuple[1] = protocol_type.get(tuple[1])
             tuple[2] = services_type.get(tuple[2])
             tuple[3] = flag.get(tuple[3])
 
-            classes.append(classes_atacks.get(tuple[41]))
+            vector = []
+            var = classes_atacks.get(tuple[41])
+            if var == None:
+                var = [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+            vector.append(var)
+
+            classes.append(vector)
 
             del tuple[41]
-            del tuple[42]
+            del tuple[41]
+        print(count)
 
         for line in range(len(matrix)):
             for value in range(len(matrix[0])):
