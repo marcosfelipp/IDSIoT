@@ -9,15 +9,20 @@ from src.utilities.log import Log
 
 
 class NeuralNetwork:
-    def __init__(self, input_training, output_training, input_test, output_test):
+    def __init__(self, input_training, output_training, input_test, output_test, n_hidden_1 = 10,
+                 n_hidden_2=10, n_hidden_3=10, n_hidden_4=10):
+
         # Parameters
         self.learning_rate  = 0.004
+        self.num_input      = 41
+        self.num_classes    = 24
 
         # Network Parameters
-        self.n_hidden_1     = 10  # 1st layer number of neurons
-        self.n_hidden_2     = 10
-        self.num_input      = 41
-        self.num_classes    = 24  # Normal or anormal
+        self.n_hidden_1     = n_hidden_1
+        self.n_hidden_2     = n_hidden_2
+        self.n_hidden_3     = n_hidden_3
+        self.n_hidden_4     = n_hidden_4
+
 
         # Load data
         self.input_matrix   = input_training
@@ -28,12 +33,11 @@ class NeuralNetwork:
         self.input_train_len= len(self.output_matrix)
         self.input_test_len = len(self.input_test)
 
-    def neural_network_run(self, neural_network_type, num_steeps):
+    def neural_network_run(self, label_number, num_steeps):
         '''
         Method that build a neural network
-        :param neural_network_type
+        :param label_number : number of labels
         :param num_steeps
-        :param type
         :return: None
         '''
 
@@ -42,10 +46,14 @@ class NeuralNetwork:
         output_expected = tf.placeholder(dtype=tf.float32, shape=[1, self.num_classes])
 
         # Construct model
-        if neural_network_type == 'perceptron':
+        if label_number == 1:
             model = self.create_model_perceptron(input_matrix)
-        else:
-            model = self.create_model_multilayer_perceptron(input_matrix)
+        elif label_number == 2:
+            model = self.create_model_multilayer_perceptron_two_layers(input_matrix)
+        elif label_number == 3:
+            model = self.create_model_multilayer_perceptron_tree_layers(input_matrix)
+        elif label_number == 4:
+            model = self.create_model_multilayer_perceptron_four_layers(input_matrix)
 
         # Compare out value with output expected:
         loss_op = tf.reduce_mean(
@@ -96,10 +104,86 @@ class NeuralNetwork:
 
         return result
 
-    def create_model_multilayer_perceptron(self, input_matrix):
+    def create_model_multilayer_perceptron_four_layers(self, input_matrix):
         '''
-        :param input_matrix: 
-        :return: 
+        :param input_matrix:
+        :return:
+        '''
+        weights = {
+            'h1': tf.Variable(tf.random_normal([self.num_input, self.n_hidden_1])),
+            'h2': tf.Variable(tf.random_normal([self.n_hidden_1, self.n_hidden_2])),
+            'h3': tf.Variable(tf.random_normal([self.n_hidden_2, self.n_hidden_3])),
+            'h4': tf.Variable(tf.random_normal([self.n_hidden_3, self.n_hidden_4])),
+            'out': tf.Variable(tf.random_normal([self.n_hidden_4, self.num_classes]))
+        }
+        biases = {
+            'b1': tf.Variable(tf.random_normal([self.n_hidden_1])),
+            'b2': tf.Variable(tf.random_normal([self.n_hidden_2])),
+            'b3': tf.Variable(tf.random_normal([self.n_hidden_3])),
+            'b4': tf.Variable(tf.random_normal([self.n_hidden_4])),
+            'out': tf.Variable(tf.random_normal([self.num_classes]))
+        }
+
+        layer_1_multiplication = tf.matmul(input_matrix, weights['h1'])
+        layer_1_addition = tf.add(layer_1_multiplication, biases['b1'])
+        layer_1_activation = tf.nn.relu(layer_1_addition)
+
+        layer_2_multiplication = tf.matmul(layer_1_activation, weights['h2'])
+        layer_2_addition = tf.add(layer_2_multiplication, biases['b2'])
+        layer_2_activation = tf.nn.relu(layer_2_addition)
+
+        layer_3_multiplication = tf.matmul(layer_2_activation, weights['h3'])
+        layer_3_addition = tf.add(layer_3_multiplication, biases['b3'])
+        layer_3_activation = tf.nn.relu(layer_3_addition)
+
+        layer_4_multiplication = tf.matmul(layer_3_activation, weights['h4'])
+        layer_4_addition = tf.add(layer_4_multiplication, biases['b4'])
+        layer_4_activation = tf.nn.relu(layer_4_addition)
+
+        out_layer_multiplication = tf.matmul(layer_4_activation, weights['out'])
+        out_layer_addition = out_layer_multiplication + biases['out']
+
+        return out_layer_addition
+
+    def create_model_multilayer_perceptron_tree_layers(self, input_matrix):
+        '''
+        :param input_matrix:
+        :return:
+        '''
+        weights = {
+            'h1': tf.Variable(tf.random_normal([self.num_input, self.n_hidden_1])),
+            'h2': tf.Variable(tf.random_normal([self.n_hidden_1, self.n_hidden_2])),
+            'h3': tf.Variable(tf.random_normal([self.n_hidden_2, self.n_hidden_3])),
+            'out': tf.Variable(tf.random_normal([self.n_hidden_2, self.num_classes]))
+        }
+        biases = {
+            'b1': tf.Variable(tf.random_normal([self.n_hidden_1])),
+            'b2': tf.Variable(tf.random_normal([self.n_hidden_2])),
+            'b3': tf.Variable(tf.random_normal([self.n_hidden_3])),
+            'out': tf.Variable(tf.random_normal([self.num_classes]))
+        }
+
+        layer_1_multiplication = tf.matmul(input_matrix, weights['h1'])
+        layer_1_addition = tf.add(layer_1_multiplication, biases['b1'])
+        layer_1_activation = tf.nn.relu(layer_1_addition)
+
+        layer_2_multiplication = tf.matmul(layer_1_activation, weights['h2'])
+        layer_2_addition = tf.add(layer_2_multiplication, biases['b2'])
+        layer_2_activation = tf.nn.relu(layer_2_addition)
+
+        layer_3_multiplication = tf.matmul(layer_2_activation, weights['h3'])
+        layer_3_addition = tf.add(layer_3_multiplication, biases['b3'])
+        layer_3_activation = tf.nn.relu(layer_3_addition)
+
+        out_layer_multiplication = tf.matmul(layer_3_activation, weights['out'])
+        out_layer_addition = out_layer_multiplication + biases['out']
+
+        return out_layer_addition
+
+    def create_model_multilayer_perceptron_two_layers(self, input_matrix):
+        '''
+        :param input_matrix:
+        :return:
         '''
         weights = {
             'h1': tf.Variable(tf.random_normal([self.num_input, self.n_hidden_1])),

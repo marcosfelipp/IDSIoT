@@ -4,7 +4,7 @@ import os
 
 class Configuration(object):
     # Absolute path of configuration file
-    __file_name = '/opt/ater/race/race-daemon-2/conf/general_settings.cfg'
+    __file_name = '../../conf/configuration.cfg'
 
     @classmethod
     def get(cls, section, option):
@@ -23,12 +23,12 @@ class Configuration(object):
             raise IOError('File "%s" does not exist.' % cls.__file_name)
 
     @classmethod
-    def get_int(cls,section,option):
-        c = cls.get(section,option)
+    def get_int(cls, section, option):
+        c = cls.get(section, option)
         return int(c)
 
     @classmethod
-    def get_list(cls,section,option):
+    def get_list(cls, section, option):
         l = str(cls.get(section, option))
         return [int(i) for i in l.split(',')]
 
