@@ -38,7 +38,7 @@ class Experiments:
         rn = NeuralNetwork(input_training, output_training, input_test, output_test)
 
         for experiment in range(1, 8):
-            name_graph = Configuration.get(experiment_name, 'name_graph')
+            title_graph = Configuration.get(experiment_name, 'name_graph')
             description = Configuration.get(experiment_name, 'description')
             n_layers = Configuration.get_int(experiment_name, 'n_layers')
             n_epochs = Configuration.get_list(experiment_name, 'n_epochs')

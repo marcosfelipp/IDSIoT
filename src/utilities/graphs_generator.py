@@ -1,42 +1,30 @@
 import matplotlib.pyplot as mpl
-
+import numpy as np
 
 class GraphsGenerator:
     def __init__(self):
         pass
 
     @staticmethod
-    def plot_perceptron_compare(description, perceptron_hits, multi_perceptron_hits, epochs_number):
+    def plot_epoch_compare(title, acurace, x_plot, experiment_number):
         '''
-        Plot graph comparing Perceptron e Multilayer Perceptron in relation of epochs number
-        :param description :
-        :param perceptron_hits: list containing hits percentage of perceptron
-        :param multi_perceptron_hits: list containing hits percentage of multilayer perceptron
-        :param epochs_number:
+        Plot graph and save
+        :param title: Title to plot in graph
+        :param acurace: 
+        :param x_plot: 
+        :param experiment_number: 
         :return: None
         '''
+        y_pos = np.arange(len(x_plot))
 
-        mpl.plot(epochs_number, perceptron_hits, epochs_number, multi_perceptron_hits)
+        mpl.bar(y_pos, acurace, 0.3, color='#1874CD',edgecolor = '#104E8B', align='center', alpha=0.5)
+        mpl.xticks(y_pos, x_plot)
 
-        mpl.axis([4, 20, 40, 100])
-        mpl.title(description)
+        for x, y in zip(y_pos, acurace):
+            mpl.text(x , y , y, ha='center', va='bottom')
+
+        mpl.ylim(0, 100)
         mpl.ylabel('% Acertos')
-        mpl.xlabel('Epochs')
-        mpl.savefig('acertosXepochs.png')
+        mpl.title(title)
+        mpl.savefig(('experiment' + str(experiment_number) + '.png'))
 
-    @staticmethod
-    def plot_neurons_amount_compare(description, neurons_amount, hits):
-        '''
-        Plot graph comparing neurons number with hits percentage
-        :param description :
-        :param hits: a
-        :param neurons_amount:
-        :return: None
-        '''
-
-        mpl.plot(hits, neurons_amount)
-        mpl.axis([1, 4, 70, 100])
-        mpl.title(description)
-        mpl.ylabel('% Acertos')
-        mpl.xlabel('Qtd. Neuronios camdada 2')
-        mpl.savefig('neuronsXhits.png')
