@@ -9,8 +9,7 @@ from src.utilities.log import Log
 
 
 class NeuralNetwork:
-    def __init__(self, input_training, output_training, input_test, output_test, n_hidden_1 = 10,
-                 n_hidden_2=10, n_hidden_3=10, n_hidden_4=10):
+    def __init__(self, input_training, output_training, input_test, output_test):
 
         # Parameters
         self.learning_rate  = 0.004
@@ -18,11 +17,10 @@ class NeuralNetwork:
         self.num_classes    = 24
 
         # Network Parameters
-        self.n_hidden_1     = n_hidden_1
-        self.n_hidden_2     = n_hidden_2
-        self.n_hidden_3     = n_hidden_3
-        self.n_hidden_4     = n_hidden_4
-
+        self.n_hidden_1 = 0
+        self.n_hidden_2 = 0
+        self.n_hidden_3 = 0
+        self.n_hidden_4 = 0
 
         # Load data
         self.input_matrix   = input_training
@@ -33,13 +31,20 @@ class NeuralNetwork:
         self.input_train_len= len(self.output_matrix)
         self.input_test_len = len(self.input_test)
 
-    def neural_network_run(self, label_number, num_steeps):
+    def neural_network_run(self, label_number, num_steeps, n_hidden_1=10, n_hidden_2=10,
+                           n_hidden_3=10, n_hidden_4=10):
         '''
         Method that build a neural network
         :param label_number : number of labels
         :param num_steeps
         :return: None
         '''
+
+        # Network Parameters
+        self.n_hidden_1 = n_hidden_1
+        self.n_hidden_2 = n_hidden_2
+        self.n_hidden_3 = n_hidden_3
+        self.n_hidden_4 = n_hidden_4
 
         # tf Graph input
         input_matrix = tf.placeholder(dtype=tf.float32, shape=[1, self.num_input])
