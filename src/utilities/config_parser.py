@@ -4,7 +4,7 @@ import os
 
 class Configuration(object):
     # Absolute path of configuration file
-    __file_name = '/home/marcos/Documents/IDSIoT/conf/configuration.cfg'
+    __file_name = '/home/marcos/Documentos/IDSIoT/conf/configuration.cfg'
 
     @classmethod
     def get(cls, section, option):

@@ -12,7 +12,7 @@ class NeuralNetwork:
     def __init__(self, input_training, output_training, input_test, output_test):
 
         # Parameters
-        self.learning_rate  = 0.004
+        self.learning_rate  = 0.005
         self.num_input      = 41
         self.num_classes    = 24
 
@@ -31,12 +31,12 @@ class NeuralNetwork:
         self.input_train_len= len(self.output_matrix)
         self.input_test_len = len(self.input_test)
 
-    def neural_network_run(self, label_number, num_steeps, n_hidden_1=10, n_hidden_2=10,
+    def neural_network_run(self, label_number, num_epochs, n_hidden_1=10, n_hidden_2=10,
                            n_hidden_3=10, n_hidden_4=10):
         '''
         Method that build a neural network
         :param label_number : number of labels
-        :param num_steeps
+        :param num_epochs
         :return: None
         '''
 
@@ -74,7 +74,7 @@ class NeuralNetwork:
             sess.run(init)
 
             # Training cycle
-            for epoch in range(num_steeps):
+            for epoch in range(num_epochs):
                 avg_cost = 0.
 
                 # Loop over all tuples:

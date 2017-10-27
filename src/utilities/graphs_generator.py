@@ -27,4 +27,4 @@ class GraphsGenerator:
         mpl.ylabel('% Acertos')
         mpl.title(title)
         mpl.savefig(('experiment' + str(experiment_number) + '.png'))
-
+        mpl.close()
