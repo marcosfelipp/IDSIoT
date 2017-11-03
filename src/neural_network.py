@@ -14,7 +14,7 @@ class NeuralNetwork:
         # Parameters
         self.learning_rate  = 0.005
         self.num_input      = 41
-        self.num_classes    = 24
+        self.num_classes    = 2
 
         # Network Parameters
         self.n_hidden_1 = 0

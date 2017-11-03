@@ -18,8 +18,8 @@ class Experiments:
         self.div_number = 1
 
         self.data_manipulation = DataManipulation()
-        self.input_test, self.output_test_expected = self.data_manipulation.read_file('KDDTest+')
         self.input, self.output_expected = self.data_manipulation.read_file('KDDTrain+')
+        self.input_test, self.output_test_expected = self.data_manipulation.read_file('KDDTest+')
 
         self.run_experiment()
 
