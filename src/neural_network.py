@@ -12,7 +12,7 @@ class NeuralNetwork:
     def __init__(self, input_training, output_training, input_test, output_test):
 
         # Parameters
-        self.learning_rate  = 0.1
+        self.learning_rate  = 0.001
         self.num_input      = 41
         self.num_classes    = 2
 
@@ -31,8 +31,8 @@ class NeuralNetwork:
         self.input_train_len= len(self.output_matrix)
         self.input_test_len = len(self.input_test)
 
-    def neural_network_run(self, label_number, num_epochs, n_hidden_1=10, n_hidden_2=10,
-                           n_hidden_3=10, n_hidden_4=10):
+    def neural_network_run(self, label_number, num_epochs, n_hidden_1=10, n_hidden_2=5,
+                           n_hidden_3=5, n_hidden_4=2):
         '''
         Method that build a neural network
         :param label_number : number of labels
@@ -203,11 +203,11 @@ class NeuralNetwork:
 
         layer_1_multiplication = tf.matmul(input_matrix, weights['h1'])
         layer_1_addition = tf.add(layer_1_multiplication, biases['b1'])
-        layer_1_activation = tf.nn.relu(layer_1_addition)
+        layer_1_activation = tf.nn.sigmoid(layer_1_addition)
 
         layer_2_multiplication = tf.matmul(layer_1_activation, weights['h2'])
         layer_2_addition = tf.add(layer_2_multiplication, biases['b2'])
-        layer_2_activation = tf.nn.relu(layer_2_addition)
+        layer_2_activation = tf.nn.sigmoid(layer_2_addition)
 
         out_layer_multiplication = tf.matmul(layer_2_activation, weights['out'])
         out_layer_addition = out_layer_multiplication + biases['out']
