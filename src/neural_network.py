@@ -12,7 +12,7 @@ class NeuralNetwork:
     def __init__(self, input_training, output_training, input_test, output_test):
 
         # Parameters
-        self.learning_rate  = 0.005
+        self.learning_rate  = 0.1
         self.num_input      = 41
         self.num_classes    = 2
 
@@ -232,7 +232,7 @@ class NeuralNetwork:
 
         layer_1_multiplication = tf.matmul(input_matrix, weights['h1'])
         layer_1_addition = tf.add(layer_1_multiplication, biases['b1'])
-        layer_1_activation = tf.nn.relu(layer_1_addition)
+        layer_1_activation = tf.nn.sigmoid(layer_1_addition)
 
         out_layer_multiplication = tf.matmul(layer_1_activation, weights['out'])
         out_layer_addition = out_layer_multiplication + biases['out']
