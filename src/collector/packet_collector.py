@@ -1,0 +1,2 @@
+class PacketCollector:
+    pass
