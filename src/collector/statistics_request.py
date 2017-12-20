@@ -3,13 +3,13 @@ from threading import Thread
 
 class StatsRequest13(Thread):
 
-    def __init__(self,connection, sleep_time):
+    def __init__(self, of_controller, datapath):
         Thread.__init__(self)
 
-        self.sleep_time  = sleep_time
-        self.connection  = connection
-        self.close       = False
-
+        self.sleep_time     = 2 # Time to send statistics request message to the switch
+        self.datapath       = datapath
+        self.of_controller  = of_controller
+        self.close          = False
 
     def run(self):
         while not self.close:
@@ -18,11 +18,11 @@ class StatsRequest13(Thread):
 
     def send_statistics_request(self):
         try:
-            ofp_parser = self.connection.ofproto_parser
+            ofp_parser = self.datapath.ofproto_parser
             match = ofp_parser.OFPMatch()
 
-            req = ofp_parser.OFPFlowStatsRequest(self.connection,match=match)
-            self.driver.send_flow_stats_request(req)
+            req = ofp_parser.OFPFlowStatsRequest(self.datapath, match=match)
+            self.of_controller.send_flow_stats_request(req)
 
         except Exception, e:
             print(e)
