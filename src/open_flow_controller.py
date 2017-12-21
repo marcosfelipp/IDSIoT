@@ -7,6 +7,7 @@ from ryu.controller.handler import CONFIG_DISPATCHER
 
 from collector.statistics_request import StatsRequest13
 from collector.rule_manager import RuleManager
+from collector.packet_collector import PacketCollector
 
 class OpenFlowController(app_manager.RyuApp):
     '''
@@ -18,17 +19,22 @@ class OpenFlowController(app_manager.RyuApp):
         self.datapath           = None
         self.statistics_request = None
         self.rule_manager       = None
+        self.packet_collector   = None
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):
         self.datapath = ev.msg.datapath
+
         self.rule_manager = RuleManager(self)
+        self.packet_collector = PacketCollector()
+
         self.statistics_request =  StatsRequest13(self, self.datapath)
         self.statistics_request.start()
 
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def packet_in_hander(self, ev):
-        pass
+        self.rule_manager(ev)
+        self.packet_collector.save_packet(ev.msg.data)
 
     @set_ev_cls(ofp_event.EventOFPFlowStatsReply)
     def stats_reply(self, ev):
