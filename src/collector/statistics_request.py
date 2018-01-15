@@ -16,7 +16,14 @@ class StatsRequest13(Thread):
             self.send_statistics_request()
             time.sleep(self.sleep_time)
 
-    def send_statistics_request(self):
+
+    def create_stats_same_service(self):
+        pass
+
+    def create_stats_same_host(self):
+        pass
+
+    def send_statistics_request(self, match):
         try:
             ofp_parser = self.datapath.ofproto_parser
             match = ofp_parser.OFPMatch()
