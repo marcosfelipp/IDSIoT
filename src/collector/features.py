@@ -12,3 +12,9 @@ class Features:
         self.urgent                      = None
         self.time_based_traffic_features = None
 
+    def set_time_based_traffic_features(self, time_based_traffic_features):
+        '''
+        :param time_based_traffic_features: Class that contain Traffic features computed using a two-second time window.
+        :return: None
+        '''
+        self.time_based_traffic_features = time_based_traffic_features
