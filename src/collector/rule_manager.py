@@ -22,11 +22,9 @@ class RuleManager():
         '''
          A method to build analysis tables when receiving a packet from the switch
         :param ev: 
-        :return: 
+        :return: None
         '''
-        # If you hit this you might want to increase
-        # the "miss_send_length" of your switch
-        print ('PACKET IN +++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+        print ('+++++++++++ PACKET IN +++++++++++++')
         msg = ev.msg
         datapath = msg.datapath
         ofproto = datapath.ofproto
@@ -37,8 +35,8 @@ class RuleManager():
         eth = pkt.get_protocols(ethernet.ethernet)[0]
 
         if eth.ethertype == ether_types.ETH_TYPE_LLDP:
-            # ignore lldp packet
             return
+
         dst = eth.dst
         src = eth.src
 
@@ -54,6 +52,7 @@ class RuleManager():
             out_port = ofproto.OFPP_FLOOD
 
         actions = [parser.OFPActionOutput(out_port)]
+        # Send all packets to switch (Verify if it capture the first packet)
         actions.append(parser.OFPActionOutput(of.OFPP_CONTROLLER))
 
         # install a flow to avoid packet_in next time
@@ -70,20 +69,15 @@ class RuleManager():
         if msg.buffer_id == ofproto.OFP_NO_BUFFER:
             data = msg.data
 
+        # Return packet captured to normal traffic:
         out = parser.OFPPacketOut(datapath=datapath, buffer_id=msg.buffer_id,
                                   in_port=in_port, actions=actions, data=data)
         datapath.send_msg(out)
 
+    def create_rule(self):
+        pass
 
     def add_flow(self, datapath, priority, match, actions, buffer_id=None):
-        '''
-        :param datapath: 
-        :param priority: 
-        :param table_id: 
-        :param match: 
-        :param actions: 
-        :return: None
-        '''
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
 
