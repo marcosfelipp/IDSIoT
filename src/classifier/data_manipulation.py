@@ -8,15 +8,15 @@ class DataManipulation:
 
     @staticmethod
     def read_file(dataset_name):
-        '''
+        """
         :param dataset_name
         :return: 2 lists coitaining tuples and classification of attack
-        '''
+        """
 
         matrix = []
         classes = []
 
-        file_name = '../data/' + dataset_name + '.arff'
+        file_name = '../../data/features_novas/' + dataset_name + '.arff'
 
         training = os.path.join(os.path.dirname(__file__), file_name)
 
@@ -66,8 +66,7 @@ class DataManipulation:
         #                   'normal'          : [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         #                   'unknown'         : [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
 
-        classes_atacks = {'normal' : [0,1] , 'anomaly' : [1,0]}
-
+        classes_atacks = {'normal': [0, 1], 'attack': [1, 0]}
 
         with open(training) as file:
             for line in file:

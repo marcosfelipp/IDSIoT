@@ -9,6 +9,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 from src.utilities.graphs_generator import GraphsGenerator
 from src.utilities.config_parser import Configuration
 
+
 class Experiments:
     '''
     Divide data in batches to training ML
@@ -18,8 +19,8 @@ class Experiments:
         self.div_number = 1
 
         self.data_manipulation = DataManipulation()
-        self.input, self.output_expected = self.data_manipulation.read_file('KDDTrain+')
-        self.input_test, self.output_test_expected = self.data_manipulation.read_file('KDDTest+')
+        self.input, self.output_expected = self.data_manipulation.read_file('features_train')
+        self.input_test, self.output_test_expected = self.data_manipulation.read_file('features_test')
 
         self.run_experiment()
 

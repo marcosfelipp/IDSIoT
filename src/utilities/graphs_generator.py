@@ -1,6 +1,7 @@
 import matplotlib.pyplot as mpl
 import numpy as np
 
+
 class GraphsGenerator:
     def __init__(self):
         pass

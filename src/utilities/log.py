@@ -2,6 +2,7 @@ import logging
 import inspect
 from logging import Formatter
 
+
 class Log(object):
 
     ##
@@ -82,7 +83,7 @@ class Log(object):
     @classmethod
     def __instantiate(cls):
         try:
-            log_file_path = '../results/results.log'
+            log_file_path = '../../results/results.log'
             file_level = 'INFO'
             screen_level = 'INFO'
             enable_screen = True
