@@ -13,7 +13,7 @@ class NeuralNetwork:
 
         # Parameters
         self.learning_rate  = 0.001
-        self.num_input      = 41
+        self.num_input      = 25
         self.num_classes    = 2
 
         # Network Parameters
@@ -88,24 +88,39 @@ class NeuralNetwork:
                                                output_expected: self.output_matrix[tuple_position]})
 
                     avg_cost += c / self.input_train_len
-                Log.info("Accurace in epoch %d" % epoch + " : %f" % avg_cost)
+                Log.info("Loss in epoch %d" % epoch + " : %f" % avg_cost)
 
             Log.info("Optimization finished")
 
             # Test model
             correct_pred = tf.equal(tf.argmax(model, 1), tf.argmax(output_expected, 1))
-
             accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
             result = 0
-            for tuple in range(self.input_test_len):
+            qtd_normal = 0
+            qtd_ataque = 0
+
+            qtd_acertos_normal = 0
+            qtd_acertos_ataque = 0
+
+            for i_tuple in range(self.input_test_len):
                 input_m = []
-                input_m.append(self.input_test[tuple])
-                result += accuracy.eval({input_matrix: input_m, output_expected: self.output_test[tuple]})
+                input_m.append(self.input_test[i_tuple])
+                avaliacao = accuracy.eval({input_matrix: input_m, output_expected: self.output_test[i_tuple]})
+                avaliacao = int(avaliacao)
+                if self.output_test[i_tuple] == [[0, 1]]:
+                    qtd_normal+=1
+                    if avaliacao == 1:
+                        qtd_acertos_normal+=1
+                else:
+                    qtd_ataque+=1
+                    print(avaliacao)
+                    if avaliacao == 1:
+                        qtd_acertos_ataque+=1
 
-            result = result / self.input_test_len
-
-            Log.info("RESULT: %f" % result)
+            print('Quantidade de acertos normal:' + str(float(qtd_acertos_normal) / float(qtd_normal)))
+            print('Quantidade de acertos ataque:' + str(float(qtd_acertos_ataque) / float(qtd_ataque)))
+            result = result / (self.input_test_len - 59)
 
         return result
 

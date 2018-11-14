@@ -1,4 +1,4 @@
-from random import randint
+import random
 
 features_normal = './features_novas/' + 'features_normal' + '.arff'
 features_attack = './features_novas/' + 'features_attack' + '.arff'
@@ -23,11 +23,11 @@ with open(features_attack) as attack, open(features_normal) as normal,  open(fea
         vector_features_normal.append(line)
 
     for i in range(qtd_attack_train):
-        sorted = randint(0, len(vector_features_attack)-1)
+        sorted = random.randint(0, len(vector_features_attack)-1)
         vector_features_train.append(vector_features_attack.pop(sorted))
 
     for i in range(qtd_normal_train):
-        sorted = randint(0, len(vector_features_normal)-1)
+        sorted = random.randint(0, len(vector_features_normal)-1)
         vector_features_train.append(vector_features_normal.pop(sorted))
 
     for i in range(len(vector_features_attack)):
@@ -35,6 +35,9 @@ with open(features_attack) as attack, open(features_normal) as normal,  open(fea
 
     for i in range(len(vector_features_normal)):
         vector_features_test.append(vector_features_normal[i])
+
+    random.shuffle(vector_features_train)
+    # random.shuffle(vector_features_test)
 
     train.writelines(vector_features_train)
     test.writelines(vector_features_test)

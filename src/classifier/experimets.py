@@ -11,16 +11,16 @@ from src.utilities.config_parser import Configuration
 
 
 class Experiments:
-    '''
+    """
     Divide data in batches to training ML
-    '''
+    """
 
     def __init__(self):
         self.div_number = 1
 
         self.data_manipulation = DataManipulation()
-        self.input, self.output_expected = self.data_manipulation.read_file('features_train')
-        self.input_test, self.output_test_expected = self.data_manipulation.read_file('features_test')
+        self.input, self.output_expected = self.data_manipulation.dataset_without_application('KDDTrain+')
+        self.input_test, self.output_test_expected = self.data_manipulation.dataset_without_application('KDDTest+')
 
         self.run_experiment()
 
@@ -41,7 +41,6 @@ class Experiments:
             experiment_name = 'EXPERIMENT' + str(experiment_number)
 
             title_graph = Configuration.get(experiment_name, 'name_graph')
-            description = Configuration.get(experiment_name, 'description')
             n_layers = Configuration.get_int(experiment_name, 'n_layers')
             n_epochs = Configuration.get_list(experiment_name, 'n_epochs')
             n_neurons = Configuration.get_int(experiment_name, 'n_neurons')
@@ -65,7 +64,6 @@ class Experiments:
             experiment_name = 'EXPERIMENT' + str(experiment_number)
 
             title_graph = Configuration.get(experiment_name, 'name_graph')
-            description = Configuration.get(experiment_name, 'description')
             n_layers = Configuration.get_int(experiment_name, 'n_layers')
             n_epochs = Configuration.get_int(experiment_name, 'n_epochs')
             n_neurons = Configuration.get_list(experiment_name, 'n_neurons')
