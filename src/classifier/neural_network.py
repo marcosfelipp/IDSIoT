@@ -114,13 +114,13 @@ class NeuralNetwork:
                         qtd_acertos_normal+=1
                 else:
                     qtd_ataque+=1
-                    print(avaliacao)
                     if avaliacao == 1:
                         qtd_acertos_ataque+=1
 
+            print("Quantidade normal:" + str(qtd_normal))
+            print('Quantidade ataque:' + str(qtd_ataque))
             print('Quantidade de acertos normal:' + str(float(qtd_acertos_normal) / float(qtd_normal)))
             print('Quantidade de acertos ataque:' + str(float(qtd_acertos_ataque) / float(qtd_ataque)))
-            result = result / (self.input_test_len - 59)
 
         return result
 
