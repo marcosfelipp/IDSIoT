@@ -1,5 +1,4 @@
 import os
-import numpy as np
 
 
 class DataManipulation:
@@ -7,9 +6,10 @@ class DataManipulation:
         pass
 
     @staticmethod
-    def dataset_without_application(dataset_name):
+    def dataset_without_application(dataset_name, anomaly = True):
         """
         :param dataset_name
+        :param anomaly the name of class label
         :return: 2 lists coitaining tuples and classification of attack
         """
         matrix = []
@@ -40,7 +40,10 @@ class DataManipulation:
         flag = {'OTH': 1, 'REJ': 2, 'RSTO': 3, 'RSTOS0': 4, 'RSTR': 5, 'S0': 6, 'S1': 7, 'S2': 8, 'S3': 9, 'SF': 10,
                 'SH': 11}
 
-        classes_atacks = {'normal': [0, 1], 'anomaly': [1, 0]}
+        if anomaly:
+            classes_attacks = {'normal': [0, 1], 'anomaly': [1, 0]}
+        else:
+            classes_attacks = {'normal': [0, 1], 'attack': [1, 0]}
 
         with open(training) as file:
             for line in file:
@@ -57,7 +60,7 @@ class DataManipulation:
                 tuple.pop(6)
 
             vector = []
-            var = classes_atacks.get(tuple[25])
+            var = classes_attacks.get(tuple[25])
             vector.append(var)
             classes.append(vector)
 
@@ -70,16 +73,17 @@ class DataManipulation:
         return matrix, classes
 
     @staticmethod
-    def prepare_dataset_features(dataset_name):
+    def prepare_dataset_features(dataset_name, anomaly = True):
         """
-        :param dataset_name
-        :return: 2 lists coitaining tuples and classification of attack
+        :param dataset_name file name
+        :param anomaly the name of class label
+        :return: 2 lists containing tuples and classification of attack
         """
 
         matrix = []
         classes = []
 
-        file_name = '../../data/features_novas/' + dataset_name + '.arff'
+        file_name = '../../data/' + dataset_name + '.arff'
 
         training = os.path.join(os.path.dirname(__file__), file_name)
 
@@ -104,7 +108,7 @@ class DataManipulation:
         flag = {'OTH': 1, 'REJ': 2, 'RSTO': 3, 'RSTOS0': 4, 'RSTR': 5, 'S0': 6, 'S1': 7, 'S2': 8, 'S3': 9, 'SF': 10,
                 'SH': 11}
 
-        # classes_atacks = {'back'            : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        # classes_attacks = {'back'            : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
         #                   'buffer_overflow' : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],
         #                   'ftp_write'       : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],
         #                   'guess_passwd'    : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],
@@ -129,7 +133,10 @@ class DataManipulation:
         #                   'normal'          : [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         #                   'unknown'         : [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
 
-        classes_atacks = {'normal': [0, 1], 'attack': [1, 0]}
+        if anomaly:
+            classes_attacks = {'normal': [0, 1], 'anomaly': [1, 0]}
+        else:
+            classes_attacks = {'normal': [0, 1], 'attack': [1, 0]}
 
         with open(training) as file:
             for line in file:
@@ -142,7 +149,7 @@ class DataManipulation:
             tuple[3] = flag.get(tuple[3])
 
             vector = []
-            var = classes_atacks.get(tuple[41])
+            var = classes_attacks.get(tuple[41])
             # if var == None:
             #     var = [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 

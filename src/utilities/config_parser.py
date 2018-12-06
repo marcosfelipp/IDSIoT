@@ -8,12 +8,12 @@ class Configuration(object):
 
     @classmethod
     def get(cls, section, option):
-        '''
+        """
         Gets a configuration value.
         :param section: String containing the section of the configuration.
         :param option: String containing the name of the configuration to get.
         :return: A string containing the configuration value.
-        '''
+        """
         configuration = ConfigParser.RawConfigParser()
         if os.path.isfile(cls.__file_name):
             configuration.read(cls.__file_name)
@@ -35,7 +35,7 @@ class Configuration(object):
 
     @classmethod
     def get_boolean(cls, section, option):
-        '''
+        """
         Gets a boolean configuration value.
         A convenience method which coerces the option in the specified section to a Boolean value.
         Note that the accepted values for the option are "1", "yes", "true", and "on", which cause this method
@@ -44,7 +44,7 @@ class Configuration(object):
         :param section:
         :param option:
         :return:
-        '''
+        """
         _boolean_states = {'1': True, 'yes': True, 'true': True, 'on': True,
                            '0': False, 'no': False, 'false': False, 'off': False}
 

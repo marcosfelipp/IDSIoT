@@ -17,14 +17,24 @@ class Experiments:
     def __init__(self):
         self.div_number = 1
 
+        # select datasets:
         self.data_manipulation = DataManipulation()
-        self.input, self.output_expected = self.data_manipulation.dataset_without_application('KDDTrain+')
-        self.input_test, self.output_test_expected = self.data_manipulation.dataset_without_application('KDDTest+')
+        self.input, self.output_expected = self.data_manipulation.dataset_without_application('features_novas/features_train', False)
+        self.input_test, self.output_test_expected = self.data_manipulation.dataset_without_application('features_novas/features_test', False)
+
+        # self.input, self.output_expected = self.data_manipulation.dataset_without_application('/features_novas/features_train', False)
+        # self.input_test, self.output_test_expected = self.data_manipulation.dataset_without_application('/features_novas/features_test', False)
+
+        # self.input, self.output_expected = self.data_manipulation.dataset_without_application('KDDTrain+')
+        # self.input_test, self.output_test_expected = self.data_manipulation.dataset_without_application('/features_novas/features_test_all', False)
 
         self.run_experiment()
 
     def run_experiment(self):
-
+        """
+        Class to run experiments
+        :return:
+        """
         input_training  = self.input
         output_training = self.output_expected
 

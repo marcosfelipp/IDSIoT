@@ -33,12 +33,12 @@ class NeuralNetwork:
 
     def neural_network_run(self, label_number, num_epochs, n_hidden_1=10, n_hidden_2=5,
                            n_hidden_3=5, n_hidden_4=2):
-        '''
+        """
         Method that build a neural network
         :param label_number : number of labels
         :param num_epochs
         :return: None
-        '''
+        """
 
         # Network Parameters
         self.n_hidden_1 = n_hidden_1
@@ -117,18 +117,18 @@ class NeuralNetwork:
                     if avaliacao == 1:
                         qtd_acertos_ataque+=1
 
-            print("Quantidade normal:" + str(qtd_normal))
-            print('Quantidade ataque:' + str(qtd_ataque))
-            print('Quantidade de acertos normal:' + str(float(qtd_acertos_normal) / float(qtd_normal)))
-            print('Quantidade de acertos ataque:' + str(float(qtd_acertos_ataque) / float(qtd_ataque)))
+            # Results for confusion matrix:
+
+            print('Correct Normal Classification: ' + str(float(qtd_acertos_normal) / float(qtd_normal)))
+            print('Correct Anomaly Classification: ' + str(float(qtd_acertos_ataque) / float(qtd_ataque)))
 
         return result
 
     def create_model_multilayer_perceptron_four_layers(self, input_matrix):
-        '''
+        """
         :param input_matrix:
         :return:
-        '''
+        """
         weights = {
             'h1': tf.Variable(tf.random_normal([self.num_input, self.n_hidden_1])),
             'h2': tf.Variable(tf.random_normal([self.n_hidden_1, self.n_hidden_2])),
@@ -166,10 +166,10 @@ class NeuralNetwork:
         return out_layer_addition
 
     def create_model_multilayer_perceptron_tree_layers(self, input_matrix):
-        '''
+        """
         :param input_matrix:
         :return:
-        '''
+        """
         weights = {
             'h1': tf.Variable(tf.random_normal([self.num_input, self.n_hidden_1])),
             'h2': tf.Variable(tf.random_normal([self.n_hidden_1, self.n_hidden_2])),
@@ -201,10 +201,10 @@ class NeuralNetwork:
         return out_layer_addition
 
     def create_model_multilayer_perceptron_two_layers(self, input_matrix):
-        '''
+        """
         :param input_matrix:
         :return:
-        '''
+        """
         weights = {
             'h1': tf.Variable(tf.random_normal([self.num_input, self.n_hidden_1])),
             'h2': tf.Variable(tf.random_normal([self.n_hidden_1, self.n_hidden_2])),
@@ -230,10 +230,10 @@ class NeuralNetwork:
         return out_layer_addition
 
     def create_model_perceptron(self, input_matrix):
-        '''
+        """
         :param input_matrix: 
         :return: 
-        '''
+        """
 
         # Store layers weight & bias
         weights = {

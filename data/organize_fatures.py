@@ -6,64 +6,73 @@ features_attack = './features_novas/' + 'features_attack' + '.arff'
 features_train = './features_novas/' + 'features_train' + '.arff'
 features_test = './features_novas/' + 'features_test' + '.arff'
 
-vector_features_attack = []
-vector_features_normal = []
+features_test_all = './features_novas/' + 'features_test_all' + '.arff'
 
-vector_features_train = []
-vector_features_test = []
 
-qtd_normal_train = 600
-qtd_attack_train = 100
+def create_train_test():
+    vector_features_attack = []
+    vector_features_normal = []
 
-with open(features_attack) as attack, open(features_normal) as normal,  open(features_train, 'w') as train, open(features_test, 'w') as test:
-    for line in attack:
-        vector_features_attack.append(line)
+    vector_features_train = []
+    vector_features_test = []
 
-    for line in normal:
-        vector_features_normal.append(line)
+    qtd_normal_train = 600
+    qtd_attack_train = 100
 
-    #     Verify repited tuples:
-    _normal = {}
-    _attack = {}
-    for line in vector_features_normal:
-        if line in _normal:
-            _normal[line] +=1
-        else:
-            _normal[line] = 0
+    with open(features_attack) as attack, open(features_normal) as normal,  open(features_train, 'w') as train, open(features_test, 'w') as test:
+        for line in attack:
+            vector_features_attack.append(line)
 
-    for line in vector_features_attack:
-        if line in _attack:
-            _attack[line] +=1
-        else:
-            _attack[line] = 1
-    _qtd_normal = 0
-    _qtd_attack = 0
+        for line in normal:
+            vector_features_normal.append(line)
 
-    for line in _normal:
-        _qtd_normal += _normal.get(line)
+        #     Verify repited tuples:
+        _normal = []
+        _attack = []
+        for line in vector_features_normal:
+            if line in _normal:
+                pass
+            else:
+                _normal.append(line)
 
-    for line in _attack:
-        _qtd_attack += _attack.get(line)
+        for line in vector_features_attack:
+            if line in _attack:
+                pass
+            else:
+                _attack.append(line)
 
-    print(_qtd_attack)
-    print(_qtd_normal)
+        for i in range(qtd_attack_train):
+            sorted = random.randint(0, len(_attack)-1)
+            vector_features_train.append(_attack.pop(sorted))
 
-    for i in range(qtd_attack_train):
-        sorted = random.randint(0, len(vector_features_attack)-1)
-        vector_features_train.append(vector_features_attack.pop(sorted))
+        for i in range(qtd_normal_train):
+            sorted = random.randint(0, len(_normal)-1)
+            vector_features_train.append(_normal.pop(sorted))
 
-    for i in range(qtd_normal_train):
-        sorted = random.randint(0, len(vector_features_normal)-1)
-        vector_features_train.append(vector_features_normal.pop(sorted))
+        for i in range(len(_attack)):
+            vector_features_test.append(_attack[i])
 
-    for i in range(len(vector_features_attack)):
-        vector_features_test.append(vector_features_attack[i])
+        for i in range(len(_normal)):
+            vector_features_test.append(_normal[i])
 
-    for i in range(len(vector_features_normal)):
-        vector_features_test.append(vector_features_normal[i])
+        random.shuffle(vector_features_train)
+        # random.shuffle(vector_features_test)
 
-    random.shuffle(vector_features_train)
-    # random.shuffle(vector_features_test)
+        train.writelines(vector_features_train)
+        test.writelines(vector_features_test)
 
-    train.writelines(vector_features_train)
-    test.writelines(vector_features_test)
+
+def create_all_dataset():
+    with open(features_attack) as attack, open(features_normal) as normal,  open(features_test_all, 'w') as test:
+        vector_features_all = []
+
+        for line in attack:
+            vector_features_all.append(line)
+
+        for line in normal:
+            vector_features_all.append(line)
+
+        test.writelines(vector_features_all)
+
+if __name__ == "__main__":
+    create_all_dataset()
